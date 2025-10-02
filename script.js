@@ -1,3 +1,15 @@
+//Globals
+const choicesMenu = document.querySelector('#menu');
+const resultDiv = document.querySelector(".result");
+
+//Create the elements in the result div with DOM: Match Result, Score, Computer Choice
+let score = [win = 0, withDraw = 0, loose = 0];
+
+let matchResult = document.createElement("h1");
+let matchLog = document.createElement("p")
+
+
+
 function getComputerChoice() {
     choices = ["rock", "paper", "scissors"]
 
@@ -6,118 +18,48 @@ function getComputerChoice() {
 }
 
 function getHumanChoice() {
-    //return prompt("Choose: rock, paper or scissors.").toLowerCase()
-    const menu = document.querySelector('div.choices #menu');
-
-    menu.addEventListener('click', (e) => {
-        let target = e.target;
-
-        switch(target.id){
-            case 'rock':
-                playRound("rock", getComputerChoice())
-                break;
-            case 'paper':
-                playRound("paper", getComputerChoice())
-                break;
-            case 'scissors':
-                playRound("scissors", getComputerChoice())
-                break;
+    //return prompt("Choose: rock, paper or scissors.").toLowerCase()]
+    choicesMenu.addEventListener('click', (event) => {
+        if(event.target.tagName === 'BUTTON'){
+            let playerChoice = event.target.id;
+            playRound(playerChoice)
         }
     })
-
 }
 
-function playRound(humanChoice, computerChoice) {
+function playRound(playerChoice) {
 
     console.log("ROCK 🪨 PAPER 📃 SCISSORS ✂️ \n")
-    switch (humanChoice) {
-        case "rock":
-            if (computerChoice == "paper") {
-                console.log(`You did ${humanChoice}`)
-                console.log(`The computer choose (${computerChoice}). You lost 😥`);
-                return -1
-            }
-            else if (computerChoice == "scissors") {
-                console.log(`You did ${humanChoice}`)
-                console.log(`The computer choose (${computerChoice}). You Won ! 🤑`)
-                return +1
-            }
-            else {
-                console.log(`You did ${humanChoice}`)
-                console.log(`Withdraw ☕`)
-                return 0
-            }
-        case "paper":
-            if (computerChoice == "scissors") {
-                console.log(`You did ${humanChoice}`)
-                console.log(`The computer choose (${computerChoice}). You lost 😥`)
-                return -1
-            }
-            else if (computerChoice == "rock") {
-                console.log(`You did ${humanChoice}`)
-                console.log(`The computer choose (${computerChoice}). You Won ! 🤑`)
-                return 1
-            }
-            else {
-                console.log(`You did ${humanChoice}`)
-                console.log(`Withdraw ☕`)
-                return 0
-            }
-            break
-        case "scissors":
-            if (computerChoice == "rocks") {
-                console.log(`You did ${humanChoice}`)
-                console.log(`The computer choose (${computerChoice}). You lost 😥`)
-                return -1
-            }
-            else if (computerChoice == "paper") {
-                console.log(`You did ${humanChoice}`)
-                console.log(`The computer choose (${computerChoice}). You Won ! 🤑`)
-                return 1
-            }
-            else {
-                console.log(`You did ${humanChoice}`)
-                console.log(`Withdraw ☕`)
-                return 0
-            }
 
+    let compChoice = getComputerChoice();
+
+
+    if(playerChoice === compChoice){
+        matchResult.textContent = "🟡 WithDraw 😑"
+        matchLog.textContent = `It's a draw! ⚔️ You both choose ${playerChoice}` 
+        score[1]++;
     }
+    else if(
+        (playerChoice === "rock" && compChoice === "scissors") ||
+        (playerChoice === "scissors" && compChoice === "paper") ||
+        (playerChoice === "paper" && compChoice === "rock")
+    ){  
+        matchResult.textContent = "🟢 VICTORY ‼️"
+        matchLog.textContent = `This round is yours! 🤑 ${playerChoice} beats ${compChoice}`
+        score[0]++;
+    }
+    else{
+        matchResult.textContent = "🔴 DEFEAT 😮‍💨"
+        matchLog.textContent = `You lost this round! 💸 ${compChoice} beats ${playerChoice}`
+        score[2]++;
+    }
+
+    //Exibe o resultado inserindo os elementos na Div através do DOM
+    resultDiv.appendChild(matchResult);
+    resultDiv.appendChild(matchLog);
+
+    
 }
 
-function playGame() {
-    const score = [win = 0, withDraw = 0, loose = 0]
-
-    const humanChoice = getHumanChoice()
-    const puterChouce = getComputerChoice()
-
-    let result = playRound(humanChoice, puterChouce)
-
-    if (result > 0) {
-        score[0]++
-    }
-    else if (result < 0) {
-        score[2]++
-    }
-    else {
-        score[1]++
-    }
-
-    console.log(`Wins: ${score[0]} | Withdraws: ${score[1]} | Looses: ${score[2]}`)
-}
-
-
-playGame()
-
-
-
-
-
-
-
-
-
-
-
-
-
+getHumanChoice();
 
