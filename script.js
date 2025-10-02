@@ -7,7 +7,7 @@ let score = [win = 0, withDraw = 0, loose = 0];
 
 let matchResult = document.createElement("h1");
 let matchLog = document.createElement("p")
-
+let gameScore = document.createElement("h2")
 
 
 function getComputerChoice() {
@@ -29,13 +29,11 @@ function getHumanChoice() {
 
 function playRound(playerChoice) {
 
-    console.log("ROCK 🪨 PAPER 📃 SCISSORS ✂️ \n")
-
     let compChoice = getComputerChoice();
 
 
     if(playerChoice === compChoice){
-        matchResult.textContent = "🟡 WithDraw 😑"
+        matchResult.textContent = "WITHDRAW 😑"
         matchLog.textContent = `It's a draw! ⚔️ You both choose ${playerChoice}` 
         score[1]++;
     }
@@ -44,19 +42,21 @@ function playRound(playerChoice) {
         (playerChoice === "scissors" && compChoice === "paper") ||
         (playerChoice === "paper" && compChoice === "rock")
     ){  
-        matchResult.textContent = "🟢 VICTORY ‼️"
+        matchResult.textContent = " VICTORY 🍀🥳"
         matchLog.textContent = `This round is yours! 🤑 ${playerChoice} beats ${compChoice}`
         score[0]++;
     }
     else{
-        matchResult.textContent = "🔴 DEFEAT 😮‍💨"
+        matchResult.textContent = "DEFEAT 😮‍💨"
         matchLog.textContent = `You lost this round! 💸 ${compChoice} beats ${playerChoice}`
         score[2]++;
     }
 
+    gameScore.textContent = `🟢 Wins: ${score[0]} | 🟡 Withdraws: ${score[1]} | 🔴 Looses: ${score[2]}`
     //Exibe o resultado inserindo os elementos na Div através do DOM
     resultDiv.appendChild(matchResult);
     resultDiv.appendChild(matchLog);
+    resultDiv.appendChild(gameScore)
 
     
 }
